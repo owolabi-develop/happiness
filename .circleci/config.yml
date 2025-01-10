@@ -1,0 +1,31 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@1.0.0
+
+jobs:
+  my_and_test_job:
+    executor: python/default
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Run script
+          command: python -m hell.py
+      - persist_to_workspace:
+          root: /my
+          paths:
+            - .
+workflows:
+  version: 2
+  my_workflow:
+    jobs:
+      - my_and_test_job:
+          filters:
+            branches:
+              only:
+                - main
+
+
+
